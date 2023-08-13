@@ -24,7 +24,7 @@ concurrency:
 
 
 jobs:
-  build-and-test:
+  build:
     name: Build and test app
     runs-on: ubuntu-latest
 
