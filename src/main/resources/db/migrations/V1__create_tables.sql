@@ -1,3 +1,5 @@
+CREATe DATABASE happyhour;
+
 -- Create the Business table
 CREATE TABLE business (
                           id SERIAL PRIMARY KEY,
