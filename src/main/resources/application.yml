@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/happyhour
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:mysecretpassword}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: UTC
+        show_sql: true
+
+
+# Log HTTP requests and responses
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.http: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+server:
+  error.include-message: always
+
+happyhour:
+  openai:
+    clientUrl: https://ue7nks7sl1.execute-api.us-east-1.amazonaws.com/prod/openai

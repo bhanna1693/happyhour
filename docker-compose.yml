@@ -1,0 +1,16 @@
+version: '3.9'  # Use the desired version of Docker Compose
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my-postgres-container
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword  # Set your desired password here
+    ports:
+      - "5432:5432"  # Map the host port to container port
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

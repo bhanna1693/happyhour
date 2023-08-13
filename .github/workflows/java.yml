@@ -1,0 +1,59 @@
+name: Build Happy Hour app
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  AWS_REGION: "us-east-1"
+
+# Permission can be added at job level or workflow level
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "happyhour"
+  cancel-in-progress: false
+
+
+jobs:
+  build-and-test:
+    name: Build and test app
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17  # Adjust to your Java version
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Run Tests
+        run: mvn test
+
+  # Build job
+  publish-to-docker:
+    needs: build
+    name: Publishing to Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: bhanna1693/happyhour:${{ github.sha }}
