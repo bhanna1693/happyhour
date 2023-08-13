@@ -29,8 +29,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out Repository
+        uses: actions/checkout@v3
+
       - name: Set up Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: 17
           distribution: temurin
