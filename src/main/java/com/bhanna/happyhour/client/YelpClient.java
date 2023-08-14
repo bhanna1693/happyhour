@@ -1,26 +1,26 @@
 package com.bhanna.happyhour.client;
 
 import com.bhanna.happyhour.model.YelpBusinessesSearchResponse;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Component
+@Log4j2
 public class YelpClient {
+
     private final WebClient webClient;
 
-    @Value("${happyhour.yelp.token}")
-    private String token;
-
-    public YelpClient() {
+    @Autowired
+    public YelpClient(YelpClientConfiguration yelpClientConfiguration) {
         this.webClient = WebClient.builder()
                 .baseUrl("https://api.yelp.com/v3")
                 .defaultHeaders(headers -> {
-                    headers.setContentType(MediaType.APPLICATION_JSON);
-                    headers.setBearerAuth(token);
+                    headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+                    headers.setBearerAuth(yelpClientConfiguration.getToken());
                 })
                 .build();
     }
@@ -35,15 +35,10 @@ public class YelpClient {
                         .queryParam("limit", 20)
                         .build()
                 )
-                .exchangeToMono(response -> {
-                    if (response.statusCode().equals(HttpStatus.OK)) {
-                        return response.bodyToMono(YelpBusinessesSearchResponse.class);
-                    } else {
-                        return response.createException()
-                                .flatMap(Mono::error);
-                    }
-                })
-//                TODO: remove blocking operation
+                .retrieve()
+                .bodyToMono(YelpBusinessesSearchResponse.class)
                 .block();
     }
+
 }
+

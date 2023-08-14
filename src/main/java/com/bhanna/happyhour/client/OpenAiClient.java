@@ -1,7 +1,7 @@
 package com.bhanna.happyhour.client;
 
 import com.bhanna.happyhour.model.OpenAiResponse;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -12,21 +12,18 @@ import reactor.core.publisher.Mono;
 @Component
 public class OpenAiClient {
 
-    @Value("${happyhour.openai.clientUrl}")
-    private String clientUrl;
+    private final WebClient webClient;
 
-    private WebClient webClient() {
-        return WebClient.builder()
-                .baseUrl(clientUrl)
-                .defaultHeaders(headers -> {
-                    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//                    headers.setBearerAuth(token);
-                })
+    @Autowired
+    private OpenAiClient(OpenAiClientConfiguration openAiClientConfiguration) {
+        this.webClient = WebClient.builder()
+                .baseUrl(openAiClientConfiguration.getUrl())
+                .defaultHeaders(headers -> headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .build();
     }
 
     public OpenAiResponse getOpenAiResponse(String csv) {
-        return webClient()
+        return webClient
                 .post()
                 .body(BodyInserters.fromValue(csv))
                 .exchangeToMono(response -> {
@@ -37,7 +34,6 @@ public class OpenAiClient {
                                 .flatMap(Mono::error);
                     }
                 })
-//                TODO: remove blocking operation
                 .block();
     }
 }

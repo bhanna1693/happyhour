@@ -7,18 +7,23 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
         jdbc:
           time_zone: UTC
         show_sql: true
+    hibernate:
+      ddl-auto: ${HIBERNATE_DDL_AUTO:auto}
   flyway:
     baseline-on-migrate: true
+  codec:
+    log-request-details: true
 
 
 # Log HTTP requests and responses
 logging:
   level:
     org.springframework.web: DEBUG
+    org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG
     org.springframework.http: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
@@ -28,6 +33,6 @@ server:
 
 happyhour:
   openai:
-    clientUrl: https://ue7nks7sl1.execute-api.us-east-1.amazonaws.com/prod/openai
+    url: https://ue7nks7sl1.execute-api.us-east-1.amazonaws.com/prod/openai
   yelp:
     token: XDwCmuL1K5vxxPKjtnvKM4hujDC1nQPO1i2QR3HpPC5ImddyfAqQvWCpQZpDfVSzwFrM5L1Fy5RlQJqXJvcfZRZRbEEsGc__XlSvfTQPfKtoWchtGsUWQmcRiJzJZHYx

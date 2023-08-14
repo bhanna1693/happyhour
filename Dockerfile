@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.8_7-jre-ubi9-minimal
+FROM eclipse-temurin:17-jdk-alpine
 
 # Set the working directory inside the container
 WORKDIR /app

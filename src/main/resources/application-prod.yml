@@ -18,6 +18,6 @@ server:
 
 happyhour:
   openai:
-    clientUrl: https://ue7nks7sl1.execute-api.us-east-1.amazonaws.com/prod/openai
+    url: https://ue7nks7sl1.execute-api.us-east-1.amazonaws.com/prod/openai
   yelp:
     token: XDwCmuL1K5vxxPKjtnvKM4hujDC1nQPO1i2QR3HpPC5ImddyfAqQvWCpQZpDfVSzwFrM5L1Fy5RlQJqXJvcfZRZRbEEsGc__XlSvfTQPfKtoWchtGsUWQmcRiJzJZHYx

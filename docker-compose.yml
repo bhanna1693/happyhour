@@ -1,11 +1,26 @@
 version: '3.9'  # Use the desired version of Docker Compose
 
 services:
+  spring-app:
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: postgres
+      DB_PASSWORD: mysecretpassword
+      HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      HIBERNATE_DDL_AUTO: update
+
   postgres:
     image: postgres:latest
     container_name: my-postgres-container
     restart: always
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mysecretpassword  # Set your desired password here
     ports:
       - "5432:5432"  # Map the host port to container port
