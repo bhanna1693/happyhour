@@ -1,18 +1,18 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/happyhour
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:mysecretpassword}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DATABASE_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
       hibernate:
-        dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc:
           time_zone: UTC
         show_sql: true
     hibernate:
-      ddl-auto: ${HIBERNATE_DDL_AUTO:auto}
+      ddl-auto: update
   flyway:
     baseline-on-migrate: true
   codec:
@@ -33,6 +33,6 @@ server:
 
 happyhour:
   openai:
-    url: https://ue7nks7sl1.execute-api.us-east-1.amazonaws.com/prod/openai
+    url: ${OPENAI_URL}
   yelp:
-    token: XDwCmuL1K5vxxPKjtnvKM4hujDC1nQPO1i2QR3HpPC5ImddyfAqQvWCpQZpDfVSzwFrM5L1Fy5RlQJqXJvcfZRZRbEEsGc__XlSvfTQPfKtoWchtGsUWQmcRiJzJZHYx
+    token: ${YELP_API_KEY}
