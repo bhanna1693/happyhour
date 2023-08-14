@@ -1,6 +1,7 @@
 package com.bhanna.happyhour.client;
 
 import com.bhanna.happyhour.model.YelpBusinessesSearchResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,9 @@ import reactor.core.publisher.Mono;
 @Component
 public class YelpClient {
     private final WebClient webClient;
-    private final String token = "XDwCmuL1K5vxxPKjtnvKM4hujDC1nQPO1i2QR3HpPC5ImddyfAqQvWCpQZpDfVSzwFrM5L1Fy5RlQJqXJvcfZRZRbEEsGc__XlSvfTQPfKtoWchtGsUWQmcRiJzJZHYx";
+
+    @Value("${happyhour.yelp.token}")
+    private String token;
 
     public YelpClient() {
         this.webClient = WebClient.builder()
