@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
@@ -18,11 +19,20 @@ public class YelpClient {
     public YelpClient(YelpClientConfiguration yelpClientConfiguration) {
         this.webClient = WebClient.builder()
                 .baseUrl("https://api.yelp.com/v3")
+                .filter(logRequest())
                 .defaultHeaders(headers -> {
                     headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
                     headers.setBearerAuth(yelpClientConfiguration.getToken());
                 })
                 .build();
+    }
+
+    public ExchangeFilterFunction logRequest() {
+        return (clientRequest, next) -> {
+            log.info("YELP REQUEST HEADERS: ");
+            clientRequest.headers().forEach((name, value) -> log.info(name + ": " + value));
+            return next.exchange(clientRequest);
+        };
     }
 
     public YelpBusinessesSearchResponse getYelpBusinesses(String location, String search) {

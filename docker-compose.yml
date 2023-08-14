@@ -11,6 +11,8 @@ services:
       - "8080:8080"
     environment:
       - DB_HOST=${DB_HOST}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
       - OPENAI_URL=${OPENAI_URL}
       - YELP_API_KEY=${YELP_API_KEY}
 
