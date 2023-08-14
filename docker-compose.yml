@@ -10,20 +10,17 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DB_HOST: postgres
-      DATABASE_NAME: happyhour
-      DB_USERNAME: postgres
-      DB_PASSWORD: mysecretpassword
-      OPENAI_URL: https://ue7nks7sl1.execute-api.us-east-1.amazonaws.com/prod/openai
-      YELP_API_KEY: XDwCmuL1K5vxxPKjtnvKM4hujDC1nQPO1i2QR3HpPC5ImddyfAqQvWCpQZpDfVSzwFrM5L1Fy5RlQJqXJvcfZRZRbEEsGc__XlSvfTQPfKtoWchtGsUWQmcRiJzJZHYx
+      - DB_HOST=${DB_HOST}
+      - OPENAI_URL=${OPENAI_URL}
+      - YELP_API_KEY=${YELP_API_KEY}
 
   postgres:
     image: postgres:latest
     container_name: my-postgres-container
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mysecretpassword  # Set your desired password here
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}  # Set your desired password here
     ports:
       - "5432:5432"  # Map the host port to container port
     volumes:
