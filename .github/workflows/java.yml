@@ -59,8 +59,13 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: |
-          mvn clean install
+        env:
+          DB_HOST: postgres
+          DB_USERNAME: postgres
+          DB_PASSWORD: mysecretpassword
+          OPENAI_URL: ${{ secrets.OPENAI_URL }}
+          YELP_API_KEY: ${{ secrets.YELP_API_KEY }}
+        run: mvn clean install
 
       - name: Run Tests
         run: mvn test
