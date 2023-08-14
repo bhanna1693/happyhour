@@ -31,12 +31,19 @@ jobs:
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
 
+    env:
+      DB_HOST: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: mysecretpassword
+      OPENAI_URL: ${{ secrets.OPENAI_URL }}
+      YELP_API_KEY: ${{ secrets.YELP_API_KEY }}
+
     services:
       postgres_db:
         image: postgres
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: mysecretpassword
+          POSTGRES_USER: ${{ env.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
           POSTGRES_DB: happyhour
         ports:
           - 5432:5432
@@ -59,12 +66,6 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        env:
-          DB_HOST: postgres
-          DB_USERNAME: postgres
-          DB_PASSWORD: mysecretpassword
-          OPENAI_URL: ${{ secrets.OPENAI_URL }}
-          YELP_API_KEY: ${{ secrets.YELP_API_KEY }}
         run: mvn clean install
 
       - name: Run Tests
