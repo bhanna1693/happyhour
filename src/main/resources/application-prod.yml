@@ -18,6 +18,10 @@ server:
   error:
     include-message: always
 
+springdoc:
+  swagger-ui:
+    enabled: false
+
 happyhour:
   openai:
     url: ${OPENAI_URL}
