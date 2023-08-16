@@ -10,6 +10,8 @@ import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
@@ -24,6 +26,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // must be explicitly added before security to do CORS check first
+                // by default uses a Bean by the name of CorsConfigurationSource
+                .cors(withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/**").authenticated()
                         .requestMatchers("/api/v1/business").hasAuthority("SCOPE_create:business")
