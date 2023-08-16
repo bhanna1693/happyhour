@@ -10,22 +10,25 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc:
           time_zone: UTC
-        show_sql: true
     hibernate:
       ddl-auto: update
   flyway:
     baseline-on-migrate: true
-  codec:
-    log-request-details: true
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # trailing slash is important!
+          issuer-uri: https://prod-bhanna.us.auth0.com/
+          audience: https://6ptwyf8m2b.us-east-1.awsapprunner.com/
 
 # Log HTTP requests and responses
 logging:
   level:
     org.springframework.web: DEBUG
-    org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG
     org.springframework.http: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.bhanna.happyhour: TRACE
+    root: ERROR
 
 server:
   error:
