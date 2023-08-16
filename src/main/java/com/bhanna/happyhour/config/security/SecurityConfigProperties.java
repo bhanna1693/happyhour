@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "spring.security.oauth2.resourceserver.jwt")
 public class SecurityConfigProperties {
 
-//    private String clientOriginUrl;
-
     private String audience;
     private String issuerUri;
 }

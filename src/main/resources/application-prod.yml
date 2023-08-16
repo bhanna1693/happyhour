@@ -31,6 +31,8 @@ springdoc:
     enabled: false
 
 happyhour:
+  cors:
+    allowedOrigins: ${}
   openai:
     url: ${OPENAI_URL}
   yelp:
