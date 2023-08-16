@@ -118,6 +118,5 @@ jobs:
           REPOSITORY: happy-hour-api
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:latest
+          docker build -t $REGISTRY/$REPOSITORY:latest -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
