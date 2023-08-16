@@ -19,8 +19,8 @@ spring:
       resourceserver:
         jwt:
           # trailing slash is important!
-          issuer-uri: https://dev-bhanna.us.auth0.com/
-          audience: http://localhost:8080/
+          issuer-uri: ${ISSUER_URI}
+          audience: ${AUDIENCE}
 
 # Log HTTP requests and responses
 logging:

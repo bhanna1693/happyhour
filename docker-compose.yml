@@ -16,6 +16,8 @@ services:
       - OPENAI_URL=${OPENAI_URL}
       - YELP_API_KEY=${YELP_API_KEY}
       - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
+      - ISSUER_URI=${ISSUER_URI}
+      - AUDIENCE=${AUDIENCE}
 
   postgres:
     image: postgres:latest

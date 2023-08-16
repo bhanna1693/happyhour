@@ -1,4 +1,4 @@
-package com.bhanna.happyhour.config;
+package com.bhanna.happyhour.config.cors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +10,17 @@ import java.util.List;
 
 @Configuration
 public class CorsConfig {
+
+    private final CorsConfigProperties corsConfigProperties;
+
+    public CorsConfig(CorsConfigProperties corsConfigProperties) {
+        this.corsConfigProperties = corsConfigProperties;
+    }
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(corsConfigProperties.getAllowedOrigins());
         configuration.setAllowedMethods(List.of("GET", "POST"));
         configuration.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
