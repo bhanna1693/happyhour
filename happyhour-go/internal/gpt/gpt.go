@@ -14,15 +14,15 @@ import (
 )
 
 type Special struct {
-	Description    string `json:"description"`
-	Cost           string `json:"cost"`
-	When           string `json:"when,omitempty"`
-	DateStart      string `json:"date_start,omitempty"`
-	DateEnd        string `json:"date_end,omitempty"`
-	TimeStart      string `json:"time_start,omitempty"`
-	TimeEnd        string `json:"time_end,omitempty"`
-	Weekday        string `json:"weekday,omitempty"`
-	AdditionalInfo string `json:"additional_info,omitempty"`
+	Description     string `json:"description"`
+	Cost            string `json:"cost"`
+	WhenDescription string `json:"when"`
+	DateStart       string `json:"date_start,omitempty"`
+	DateEnd         string `json:"date_end,omitempty"`
+	TimeStart       string `json:"time_start,omitempty"`
+	TimeEnd         string `json:"time_end,omitempty"`
+	Weekday         string `json:"weekday,omitempty"`
+	AdditionalInfo  string `json:"additional_info,omitempty"`
 }
 type GPTResponse struct {
 	Specials []Special `json:"specials"`
@@ -93,77 +93,6 @@ func AnalyzeImageForSpecials(scrapeResp scraper.ScrapeResponse) (GPTResponse, er
 			Strict:      false,
 		},
 	}
-
-	// schema2 := openai.FunctionDefinition{
-	// 	Name: "get_restaurant_specials",
-	// 	Parameters: jsonschema.Definition{
-	// 		Type: jsonschema.Object,
-	// 		Properties: map[string]jsonschema.Definition{
-	// 			"specials": {
-	// 				Type: jsonschema.Array,
-	// 				Items: &jsonschema.Definition{
-	// 					Type: jsonschema.Object,
-	// 					Properties: map[string]jsonschema.Definition{
-	// 						"description": {
-	// 							Type:        jsonschema.String,
-	// 							Description: "A brief description of the special or deal offered.",
-	// 						},
-	// 						"cost": {
-	// 							Type:        jsonschema.String,
-	// 							Description: "The cost or price of the special.",
-	// 						},
-	// 						"when": {
-	// 							Type:        jsonschema.String,
-	// 							Description: "General description of when the special is available (e.g., Happy Hour, Lunch Time).",
-	// 						},
-	// 						"date_start": {
-	// 							Type:        jsonschema.String,
-	// 							Description: "Start date for the special, in YYYY-MM-DD format.",
-	// 						},
-	// 						"date_end": {
-	// 							Type:        jsonschema.String,
-	// 							Description: "End date for the special, in YYYY-MM-DD format.",
-	// 						},
-	// 						"time_start": {
-	// 							Type:        jsonschema.String,
-	// 							Description: "Start time for the special, in HH:MM format.",
-	// 						},
-	// 						"time_end": {
-	// 							Type:        jsonschema.String,
-	// 							Description: "End time for the special, in HH:MM format.",
-	// 						},
-	// 						"weekday": {
-	// 							Type:        jsonschema.String,
-	// 							Enum:        []string{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"},
-	// 							Description: "Day of the week when the special is available.",
-	// 						},
-	// 						"additional_info": {
-	// 							Type:        jsonschema.String,
-	// 							Description: "Additional information about the special, such as conditions or restrictions.",
-	// 						},
-	// 					},
-	// 					Required: []string{"description", "cost", "when"},
-	// 				},
-	// 			},
-	// 			"message": {
-	// 				Type:        jsonschema.String,
-	// 				Description: "Message indicating the status of the analysis.",
-	// 			},
-	// 			"specials_found": {
-	// 				Type:        jsonschema.String,
-	// 				Enum:        []string{"NO", "YES", "MAYBE"},
-	// 				Description: "Indicates whether any specials were found.",
-	// 			},
-	// 		},
-	// 		Required: []string{"specials", "message", "specials_found"},
-	// 	},
-	// }
-	// tools := []openai.Tool{
-	// 	{
-	// 		Type:     openai.ToolTypeFunction,
-	// 		Function: &schema2,
-	// 	},
-	// }
 
 	resp, err := client.CreateChatCompletion(ctx, openai.ChatCompletionRequest{
 		Model:    openai.GPT4oMini,
