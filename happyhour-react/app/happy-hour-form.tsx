@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,14 +10,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useHappyHourContext } from "@/context/HappyHourContext";
 import { apiClient } from "@/lib/apiClient";
 import { catchErrorTyped } from "@/lib/catchErrorsTyped";
-import { HappyHourResponse } from "@/models/happy-hour-response.model";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "./ui/button";
 
 const formSchema = z.object({
   restaurantUrl: z.string().url("Must be a valid URL."),
@@ -29,8 +28,7 @@ export default function HappyHourForm() {
       restaurantUrl: "https://www.vocellipizza.com/shaler_pa",
     },
   });
-  const [happyHourRespone, setHappyHourResponse] =
-    useState<HappyHourResponse>();
+  const happyHourContext = useHappyHourContext();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -38,12 +36,13 @@ export default function HappyHourForm() {
     const params = new URLSearchParams();
     params.set("restaurantUrl", encodeURIComponent(values.restaurantUrl));
     const url = "/scrape-website?" + params.toString();
+    happyHourContext.setActive(values.restaurantUrl);
     const [resp, err] = await catchErrorTyped(apiClient.get(url));
     if (err) {
       console.error(err);
       return;
     }
-    setHappyHourResponse(resp);
+    happyHourContext.setActiveDetails(resp);
   }
 
   return (
@@ -70,10 +69,10 @@ export default function HappyHourForm() {
           <Button>Get Specials</Button>
         </form>
       </Form>
-      {happyHourRespone && (
+      {happyHourContext.activeRestaurantDetails && (
         <div>
           <ul>
-            {happyHourRespone.specials.map((special, index) => (
+            {happyHourContext.activeRestaurantDetails.specials.map((special, index) => (
               <li key={index}>
                 <h3>{special.description}</h3>
                 <p>Cost: {special.cost}</p>
